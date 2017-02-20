@@ -118,14 +118,15 @@
 	};
 //} //End of the namespace
 
+// Concatenate the File name from the absolute path
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+
 // The macro to write into Syslog
 // Specify the log type. Note that this version distinguishs only DEBUG messages.
 // All other types are referred to as INFO.
 // Therefore, the type should be either 'debug' or some another.
-#define ToWestlabLog(LOGTYPE, TEXT) LOGTYPE==debug?syslog (LOG_INFO, "Function: %s Line: %d File: %s: %s", __func__, __LINE__, __FILE__, TEXT):syslog (LOG_INFO, "%s", TEXT);
+#define ToWestlabLog(LOGTYPE, TEXT) LOGTYPE==debug?syslog (LOG_INFO, "Function: %s Line: %d File: %s: %s", __func__, __LINE__, __FILENAME__, TEXT):syslog (LOG_INFO, "%s", TEXT);
 
-// Concatenate the File name from the absolute path
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 void OpenSyslog (char *name, enum LogType type)
 {
 	openlog(name, LOG_PID|LOG_CONS/*|LOG_PERROR*/, type);
