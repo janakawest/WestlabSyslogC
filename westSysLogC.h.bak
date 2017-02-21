@@ -127,6 +127,13 @@
 // Therefore, the type should be either 'debug' or some another.
 #define ToWestlabLog(LOGTYPE, TEXT) LOGTYPE==debug?syslog (LOG_INFO, "Function: %s Line: %d File: %s: %s", __func__, __LINE__, __FILENAME__, TEXT):syslog (LOG_INFO, "%s", TEXT);
 
-void OpenSyslog (char *name, enum LogType type);
-void CloseLog ();
+void OpenSyslog (char *name, enum LogType type)
+{
+	openlog(name, LOG_PID|LOG_CONS/*|LOG_PERROR*/, type);
+}
+
+void CloseLog ()
+{
+	closelog ();
+}
 #endif // SYSLOG_WEST
